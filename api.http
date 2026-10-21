@@ -1,0 +1,32 @@
+@base = http://localhost:8080/api/support-orders
+
+### Crear
+POST {{base}}
+Content-Type: application/json
+
+{
+  "externalReference": "MOB-2001",
+  "customerId": "CUST-001",
+  "category": "PAYMENT",
+  "description": "El pago aparece como pendiente después de varios minutos.",
+  "channel": "MOBILE_APP",
+  "priority": "MEDIUM"
+}
+
+### Listar (filtro opcional)
+GET {{base}}?status=OPEN
+
+### Detalle
+GET {{base}}/1
+
+### Cambiar estado
+PATCH {{base}}/1/status
+Content-Type: application/json
+
+{ "status": "IN_PROGRESS" }
+
+### Transición inválida (RESOLVED -> OPEN) => 409
+PATCH {{base}}/3/status
+Content-Type: application/json
+
+{ "status": "OPEN" }
